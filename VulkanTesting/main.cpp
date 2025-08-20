@@ -12,6 +12,10 @@
 #include <stdexcept>
 #include <cstdlib>
 
+const uint32_t WIDTH = 1280; //specifies horizontal resolution
+const uint32_t HEIGHT = 720; //specifies vertical resolution
+//decided to specify my window as 720p
+
 class HelloTriangleApplication {
 public:
     void run() {
@@ -22,9 +26,15 @@ public:
     }
 
 private:
+    GLFWwindow* window;
+    
     void initWindow() {
-        glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-        glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+        glfwInit();
+    
+        glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API); //initializes the GLFW library
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE); //locks the window into its current resolution
+        
+        window = glfwCreateWindow(WIDTH, HEIGHT, "Vulkan", nullptr, nullptr); //creates the window
     }
     
     void initVulkan() {
@@ -32,11 +42,15 @@ private:
     }
 
     void mainLoop() {
-
+        while(!glfwWindowShouldClose(window)){ //keeps the window running until its forced to close, either by user input or by error
+            glfwPollEvents();
+        }
     }
 
     void cleanup() {
-
+        glfwDestroyWindow(window);
+        
+        glfwTerminate();
     }
 };
 
